@@ -8,6 +8,7 @@ first_frame = None
 status_list = [0,0] 
 times_list= []
 
+df = pd.DataFrame(columns=["Start","End"])
 
 
 while True:
@@ -60,10 +61,12 @@ while True:
         if status ==1:
             times_list.append(datetime.now())
         break
-print(status_list)
-print(times_list)
+
+
+for i in range(0,len(times_list),2):
+    new_row = {"Start": times_list[i], "End": times_list[i+1]}
+    df = pd.concat([df, pd.DataFrame(new_row, index=[0])], ignore_index=True)
     
-
-
+df.to_csv("data.csv")
 video.release()
 cv2.destroyAllWindows()
