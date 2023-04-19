@@ -43,6 +43,7 @@ while True:
         (x,y,w,h) = cv2.boundingRect(countour)
         cv2.rectangle(frame, (x,y), (x+w, y+h),(0,255,0),3)
     
+    status_list = status_list[-2:]
     status_list.append(status)
     if status_list[-1] == 1 and status_list[-2]== 0:
         times_list.append(datetime.now())
@@ -66,7 +67,8 @@ while True:
 for i in range(0,len(times_list),2):
     new_row = {"Start": times_list[i], "End": times_list[i+1]}
     df = pd.concat([df, pd.DataFrame(new_row, index=[0])], ignore_index=True)
-    
+ 
+print(status_list)   
 df.to_csv("data.csv")
 video.release()
 cv2.destroyAllWindows()
